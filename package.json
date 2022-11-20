@@ -1,0 +1,15 @@
+{
+  "name": "ts-datastruct-algo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "tokatu4561",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lite-server"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.3",
+    "lite-server": "^2.5.4"
+  }
+}
