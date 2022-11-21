@@ -1,6 +1,5 @@
-
 // 計算量 平均 O(n^2) best O(n) worst O(n^2)
-const bubbleSort = (nums: Array<number>): Array<number>  => {
+export const bubbleSort = (nums: Array<number>): Array<number>  => {
   const len = nums.length
   const sortNums = nums
 
