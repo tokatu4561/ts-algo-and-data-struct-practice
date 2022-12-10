@@ -98,4 +98,40 @@ export class DoublyLinkedList {
       currentNode = currentNode.nextNode
     }
   }
+
+  // 逆順にソートする
+  public reverse_iterative(): void {
+    let prevNode
+    let currentNode = this.head
+    while (currentNode) {
+      prevNode = currentNode.prevNode
+
+      currentNode.prevNode = currentNode.nextNode
+      currentNode.nextNode = prevNode
+
+      currentNode = currentNode.prevNode
+    }
+
+    if (prevNode) {
+      this.head = prevNode.prevNode
+    }
+  }
+
+  // 逆順に再帰的にソートする
+  public reverse_recursive(): void {
+    this.head = this._reverse_recursive(this.head)
+  }
+
+  private _reverse_recursive(currentNode: NodeClass | undefined): NodeClass | undefined {
+    if (!currentNode) return undefined
+
+    let prevNode
+    prevNode = currentNode.prevNode
+    currentNode.prevNode = currentNode.nextNode
+    currentNode.nextNode = prevNode
+
+    if (currentNode.prevNode == undefined) currentNode
+
+    this._reverse_recursive(currentNode.prevNode)
+  }
 }
