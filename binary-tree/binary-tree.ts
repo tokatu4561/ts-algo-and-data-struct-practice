@@ -41,7 +41,39 @@ export const search = (node: Node | undefined, value: number): boolean => {
         return search(node.left, value)
     } else if (node.value < value) {
         return search(node.right, value)
-    }
+    } 
 
     return true
-} 
+}
+
+export const remove = (node: Node | undefined, value: number): Node | undefined => {
+    if (!node) return node
+
+    if (value < node.value) {
+        node.left = remove(node.left, value)
+    } else if (value > node.value) {
+        node.right = remove(node.right, value)
+    } else {
+        if (node.left == undefined) {
+            return node.right
+        } else if (node.right == undefined) {
+            return node.left
+        } 
+
+        let tmp = _minNode(node.right)
+        node.value = tmp.value
+        node.right = remove(node.right, tmp.value)
+    }
+
+    return node
+}
+
+const _minNode = (node: Node) : Node=> {
+    let current = node
+
+    while(node.left) {
+        current = node.left
+    }
+
+    return current
+}
