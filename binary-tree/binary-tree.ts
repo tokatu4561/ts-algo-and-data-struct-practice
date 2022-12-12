@@ -12,68 +12,92 @@ export class Node {
   
 }
 
-export const insert = (node: Node | undefined, value: number): Node => {
-    if (!node) return new Node(value)
-
-    if (value < node.value) {
-        node.left = insert(node.left, value)
-    } else {
-        node.right = insert(node.right, value)
+export class BinarySearchTree {
+    public root: Node | undefined
+    constructor() {
+        this.root = undefined
     }
 
-    return node
-}
-
-// 小さい順に表示する
-export const inorder = (node: Node | undefined): void => {
-    if (node) {
-        inorder(node.left)
-        console.log(node.value)
-        inorder(node.right)
+    public insert = (value: number): void=> {
+        this._insert(this.root, value)
     }
-} 
 
-// 検索
-export const search = (node: Node | undefined, value: number): boolean => {
-    if (!node) return false
+    private _insert = (node: Node | undefined, value: number): Node => {
+        if (!node) return new Node(value)
+    
+        if (value < node.value) {
+            node.left = this._insert(node.left, value)
+        } else {
+            node.right = this._insert(node.right, value)
+        }
+    
+        return node
+    }
 
-    if (node.value > value) {
-        return search(node.left, value)
-    } else if (node.value < value) {
-        return search(node.right, value)
-    } 
+    public inorder = (): void => {
+        this._inorder(this.root)
+    }
 
-    return true
-}
+    private _inorder = (node: Node | undefined): void => {
+        if (node) {
+            this._inorder(node.left)
+            console.log(node.value)
+            this._inorder(node.right)
+        }
+    }
 
-export const remove = (node: Node | undefined, value: number): Node | undefined => {
-    if (!node) return node
+    // 検索
+    public search = (value: number): boolean => {
+        return this._search(this.root, value)
+    }
 
-    if (value < node.value) {
-        node.left = remove(node.left, value)
-    } else if (value > node.value) {
-        node.right = remove(node.right, value)
-    } else {
-        if (node.left == undefined) {
-            return node.right
-        } else if (node.right == undefined) {
-            return node.left
+    private _search = (node: Node | undefined, value: number): boolean => {
+        if (!node) return false
+    
+        if (node.value > value) {
+            return this._search(node.left, value)
+        } else if (node.value < value) {
+            return this._search(node.right, value)
         } 
-
-        let tmp = _minNode(node.right)
-        node.value = tmp.value
-        node.right = remove(node.right, tmp.value)
+    
+        return true
     }
 
-    return node
-}
-
-const _minNode = (node: Node) : Node=> {
-    let current = node
-
-    while(node.left) {
-        current = node.left
+    // 削除
+    public remove = (value: number): void => {
+       this._remove(this.root, value)
     }
 
-    return current
+    private _remove = (node: Node | undefined, value: number): Node | undefined => {
+        if (!node) return node
+    
+        if (value < node.value) {
+            node.left = this._remove(node.left, value)
+        } else if (value > node.value) {
+            node.right = this._remove(node.right, value)
+        } else {
+            if (node.left == undefined) {
+                return node.right
+            } else if (node.right == undefined) {
+                return node.left
+            } 
+    
+            let tmp = this.minNode(node.right)
+            node.value = tmp.value
+            node.right = this._remove(node.right, tmp.value)
+        }
+    
+        return node
+    }
+
+    private minNode = (node: Node) : Node=> {
+        let current = node
+    
+        while(node.left) {
+            current = node.left
+        }
+    
+        return current
+    }
+
 }
